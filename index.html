@@ -8,28 +8,28 @@
 <body>
 	<h1>Test Reflux one way flow</h1>
 	<script type="text/javascript">
-		// Creating an action
+		// Step 1. Create an action
 		var statusUpdate = Reflux.createAction();
 		
-		// Creating a DataStore		
+		// Step 2. Create a store 	
 		var statusStore = Reflux.createStore({
 		    init: function() {
-		        this.listenTo(statusUpdate, this.output);
+		        this.listenTo(statusUpdate, this.output); 	// Bind the statusUpdate action to the store, then calls the callback
 		    },
-		    output: function(flag) {
+		    output: function(flag) {                        // callback is declared here
 		        var status = flag ? 'ONLINE' : 'OFFLINE';
 		        this.trigger(status);
 		    }
 		});
 
-		function test(){
-			statusStore.listen(function(status) {
+		function test(){									// declare function test
+			statusStore.listen(function(status) {   		// call the listen of statusStore
 			    console.log('status: ', status);
 			});	
 		}
 		
-		test();
-		statusUpdate(false);
+		test(); // call function test
+		statusUpdate(false);								// observe the result
 
 	</script>
 </body>
