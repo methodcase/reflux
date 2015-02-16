@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8"/>
+	<script type="text/javascript" src="bower_components/reflux/dist/reflux.js"></script>
+</head>
+<body>
+	<h1>Test Reflux one way flow</h1>
+	<script type="text/javascript">
+		// Creating an action
+		var statusUpdate = Reflux.createAction();
+		
+		// Creating a DataStore		
+		var statusStore = Reflux.createStore({
+		    init: function() {
+		        this.listenTo(statusUpdate, this.output);
+		    },
+		    output: function(flag) {
+		        var status = flag ? 'ONLINE' : 'OFFLINE';
+		        this.trigger(status);
+		    }
+		});
+
+		function test(){
+			statusStore.listen(function(status) {
+			    console.log('status: ', status);
+			});	
+		}
+		
+		test();
+		statusUpdate(false);
+
+	</script>
+</body>
+</html>
